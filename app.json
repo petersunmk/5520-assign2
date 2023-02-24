@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "assign2",
-    "slug": "assign2",
+    "name": "app",
+    "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
