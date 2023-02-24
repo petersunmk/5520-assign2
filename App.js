@@ -11,8 +11,53 @@ import AddEntryScreen from "./components/AddEntryScreen";
 
 const Stack = createNativeStackNavigator();
 
+// export default function App() {
+//   // const [modalVisible, setModalVisible] = useState(false);
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="All Entries">
+//         <Stack.Screen
+//           name="Edit"
+//           component={EditScreen}
+//           options={{
+//             headerBackTitle: "Back",
+//           }}
+//         />
+//         <Stack.Screen
+//           name="All Entries"
+//           component={HomeScreen}
+//           options={({ navigation }) => ({
+//             headerRight: () => (
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   navigation.navigate("Add An Entry");
+//                 }}
+//               >
+//                 <Ionicons name="add" size={24} color="black" />
+//               </TouchableOpacity>
+//             ),
+//           })}
+//         />
+//         {/* {(props) => (
+//             <Home
+//               {...props}
+//               modalVisible={modalVisible}
+//               setModalVisible={setModalVisible}
+//             />
+//           )} */}
+//         {/* </Stack.Screen> */}
+//         <Stack.Screen
+//           name="Add An Entry"
+//           component={AddEntryScreen}
+//           options={{
+//             headerBackTitle: "Back",
+//           }}
+//         />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 export default function App() {
-  // const [modalVisible, setModalVisible] = useState(false);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="All Entries">
@@ -38,14 +83,6 @@ export default function App() {
             ),
           })}
         />
-        {/* {(props) => (
-            <Home
-              {...props}
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
-          )} */}
-        {/* </Stack.Screen> */}
         <Stack.Screen
           name="Add An Entry"
           component={AddEntryScreen}

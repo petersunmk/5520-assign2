@@ -86,12 +86,6 @@ export default HomeScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
 
-      <AddEntryScreen
-        modalIsVisible={modalVisible}
-        textUpdateFunction={onTextEnter}
-        onCancel={onCancel}
-        // containerStyle={styles.container}
-      />
       <View style={styles.bottomContainer}>
         <FlatList
           contentContainerStyle={styles.scrollViewContentContainer}
