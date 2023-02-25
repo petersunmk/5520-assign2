@@ -1,14 +1,82 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+// import { View, Text, StyleSheet } from "react-native";
+// import React from "react";
 
-export default function AddEntryScreen() {
-  //console.log(appName);
+// export default function AddEntryScreen() {
+//   //console.log(appName);
+//   return (
+//     <View>
+//       <Text>Add an entity;</Text>
+//     </View>
+//   );
+// }
+
+import React, { useState } from "react";
+import { View, TextInput, StyleSheet, Button, Alert } from "react-native";
+import { writeToDB } from "../Firebase/firestoreHelper";
+
+const AddEntryScreen = ({ navigation }) => {
+  const [calories, setCalories] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = () => {
+    if (!calories || !description || isNaN(calories) || calories < 0) {
+      Alert.alert("Invalid input", "Please enter valid input.");
+      return;
+    }
+
+    const entry = {
+      calories: parseInt(calories),
+      description: description,
+    };
+
+    writeToDB(entry)
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        navigation.navigate("All Entries");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
+
   return (
-    <View>
-      <Text>Add an entity;</Text>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter calories"
+        onChangeText={(text) => setCalories(text)}
+        value={calories}
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter description"
+        onChangeText={(text) => setDescription(text)}
+        value={description}
+      />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    width: "100%",
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+});
+
+export default AddEntryScreen;
 
 // import {
 //   View,
