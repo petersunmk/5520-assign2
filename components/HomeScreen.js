@@ -184,8 +184,8 @@ export default HomeScreen = ({ navigation }) => {
         } else {
           let docs = [];
           querySnapshot.docs.forEach((snap) => {
-            const { name, calories } = snap.data();
-            docs.push({ name, calories, id: snap.id });
+            const { description, calories } = snap.data();
+            docs.push({ description, calories, id: snap.id });
           });
           setGoals(docs);
         }
@@ -196,22 +196,21 @@ export default HomeScreen = ({ navigation }) => {
     };
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
 
-  function onTextEnter(changedText, changedCalories) {
-    let newGoal = { name: changedText, calories: changedCalories };
-    console.log(newGoal);
-    writeToDB(newGoal);
-    setModalVisible(false);
-  }
-  function onCancel() {
-    setModalVisible(false);
-  }
-  function onDeletePressed(deletedId) {
-    deleteFromDB(deletedId);
-  }
+  // function onTextEnter(changedText, changedCalories) {
+  //   let newGoal = { name: changedText, calories: changedCalories };
+  //   console.log(newGoal);
+  //   writeToDB(newGoal);
+  //   setModalVisible(false);
+  // }
+  // function onCancel() {
+  //   setModalVisible(false);
+  // }
+  // function onDeletePressed(deletedId) {
+  //   deleteFromDB(deletedId);
+  // }
   function goalItemPressed(goal) {
-    console.log("goal item pressed ", goal);
     navigation.navigate("Edit", { goalItem: goal });
   }
 
@@ -220,15 +219,13 @@ export default HomeScreen = ({ navigation }) => {
       <StatusBar style="auto" />
 
       <View style={styles.bottomContainer}>
-        {goals &&
-          goals.map((goal) => (
-            <EntryList
-              key={goal.id}
-              goal={goal}
-              onDelete={onDeletePressed}
-              onGoalPress={() => goalItemPressed(goal)}
-            />
-          ))}
+        <FlatList
+          contentContainerStyle={styles.scrollViewContentContainer}
+          data={goals}
+          renderItem={({ item }) => {
+            return <EntryList goal={item} onGoalPress={goalItemPressed} />;
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -237,7 +234,7 @@ export default HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "red",
     alignItems: "stretch",
     justifyContent: "center",
   },

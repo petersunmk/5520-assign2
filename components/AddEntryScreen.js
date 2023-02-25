@@ -31,7 +31,6 @@ const AddEntryScreen = ({ navigation }) => {
 
     writeToDB(entry)
       .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
         navigation.navigate("All Entries");
       })
       .catch((error) => {
