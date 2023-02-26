@@ -1,25 +1,14 @@
-// import { View, Text, StyleSheet } from "react-native";
-// import React from "react";
-
-// export default function AddEntryScreen() {
-//   //console.log(appName);
-//   return (
-//     <View>
-//       <Text>Add an entity;</Text>
-//     </View>
-//   );
-// }
-
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, TextInput, StyleSheet, Button, Alert } from "react-native";
 import { writeToDB } from "../Firebase/firestoreHelper";
 
 const AddEntryScreen = ({ navigation }) => {
   const [calories, setCalories] = useState("");
   const [description, setDescription] = useState("");
+  const descriptionInputRef = useRef(null);
 
   const handleSubmit = () => {
-    if (!calories || !description || isNaN(calories) || calories < 0) {
+    if (!calories || !description || isNaN(calories) || calories <= 0) {
       Alert.alert("Invalid input", "Please enter valid input.");
       return;
     }
@@ -38,6 +27,14 @@ const AddEntryScreen = ({ navigation }) => {
       });
   };
 
+  const handleReset = () => {
+    setCalories("");
+    setDescription("");
+    if (descriptionInputRef.current) {
+      descriptionInputRef.current.focus();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -48,12 +45,16 @@ const AddEntryScreen = ({ navigation }) => {
         keyboardType="numeric"
       />
       <TextInput
+        ref={descriptionInputRef}
         style={styles.input}
         placeholder="Enter description"
         onChangeText={(text) => setDescription(text)}
         value={description}
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <View style={styles.buttonContainer}>
+        <Button title="Reset" onPress={handleReset} />
+        <Button title="Submit" onPress={handleSubmit} />
+      </View>
     </View>
   );
 };
@@ -73,98 +74,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
+  },
 });
 
 export default AddEntryScreen;
-
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   Button,
-//   Modal,
-//   StyleSheet,
-//   Image,
-// } from "react-native";
-// import { useState } from "react";
-// import PressableButton from "./PressableButton";
-
-// export default function Input() {
-// // {
-// //   // textUpdateFunction,
-// //   // modalIsVisible,
-// //   // onCancel,
-// // }
-//   // const [text, setText] = useState("");
-//   // function updateText() {
-//   //   textUpdateFunction(text);
-//   // }
-
-//   return (
-//     <View>
-//       <Text>
-//         Add an entity
-//         {/* You are viewing details of {route.params.goalItem.text} with id:{" "}
-//         {route.params.goalItem.id}{" "} */}
-//       </Text>
-//     </View>
-//   );
-// }
-//   return (
-//     <Modal visible={modalIsVisible} animationType="slide">
-//       <View style={styles.container}>
-//         <TextInput
-//           style={styles.input}
-//           value={text}
-//           onChangeText={(changedText) => {
-//             setText(changedText);
-//           }}
-//         />
-//         <View style={styles.buttonContainer}>
-//           <View style={styles.button}>
-//             <Button
-//               disabled={text.length === 0 ? true : false}
-//               title="Confirm"
-//               onPress={() => {
-//                 textUpdateFunction(text);
-//                 setText("");
-//               }}
-//             />
-//           </View>
-//           {/* <View style={styles.button}>
-//             <Button title="Cancel" onPress={onCancel} />
-//           </View> */}
-//           <PressableButton
-//             pressHandler={onCancel}
-//             style={{ backgroundColor: "lightgreen" }}
-//           >
-//             <Text>Cancel</Text>
-//           </PressableButton>
-//         </View>
-//       </View>
-//     </Modal>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#aaa",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   image: {
-//     width: 100,
-//     height: 100,
-//   },
-//   input: {
-//     borderBottomColor: "rebeccapurple",
-//     borderBottomWidth: 2,
-//     width: "50%",
-//     marginVertical: 10,
-//   },
-//   buttonContainer: {
-//     flexDirection: "row",
-//   },
-//   button: { width: "30%", marginHorizontal: 5, color: "red" },
-// });
