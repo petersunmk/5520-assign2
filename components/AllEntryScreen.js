@@ -32,8 +32,6 @@ export default function AllEntryScreen({ navigation }) {
     };
   }, []);
 
-  const overLimitGoals = goals.filter((goal) => goal.calories > limit);
-
   function goalItemPressed(goal) {
     navigation.navigate("Edit", { goalItem: goal });
   }
