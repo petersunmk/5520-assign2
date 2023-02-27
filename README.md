@@ -1,1 +1,1 @@
-Mobile Class
+A Calorie Tracker Mobile App

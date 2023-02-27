@@ -63,30 +63,31 @@ export default function EditListScreen({ route, navigation }) {
       <View style={styles.itemContainer}>
         <Text style={styles.text}>Calories:{calories}</Text>
         <Text style={styles.text}>Description:{description}</Text>
+
+        <TouchableOpacity style={[styles.button]} onPress={handleDelete}>
+          <Text style={styles.buttonText}>Delete</Text>
+          <FontAwesome
+            name="trash"
+            size={20}
+            color={Colors.activeBottomTabColor}
+          />
+        </TouchableOpacity>
+
+        {isOverLimit && !isReviewed ? (
+          <>
+            <Text style={styles.overLimitText}>Over Limit !</Text>
+
+            <TouchableOpacity style={styles.button} onPress={handleReviewed}>
+              <Text style={styles.buttonText}>Mark as Reviewed</Text>
+              <FontAwesome
+                name="check"
+                size={20}
+                color={Colors.activeBottomTabColor}
+              />
+            </TouchableOpacity>
+          </>
+        ) : null}
       </View>
-      {isOverLimit && !isReviewed ? (
-        <>
-          <Text style={styles.overLimitText}>Over Limit</Text>
-
-          <TouchableOpacity style={styles.button} onPress={handleReviewed}>
-            <Text style={styles.buttonText}>Mark as Reviewed</Text>
-            <FontAwesome
-              name="check"
-              size={20}
-              color={Colors.activeBottomTabColor}
-            />
-          </TouchableOpacity>
-        </>
-      ) : null}
-
-      <TouchableOpacity style={[styles.button]} onPress={handleDelete}>
-        <Text style={styles.buttonText}>Delete</Text>
-        <FontAwesome
-          name="trash"
-          size={20}
-          color={Colors.activeBottomTabColor}
-        />
-      </TouchableOpacity>
     </View>
   );
 }
@@ -99,14 +100,17 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: "column",
-    justifyContent: "flex-start",
+    paddingTop: 20,
     alignItems: "center",
-    backgroundColor: Colors.headerColor,
+    backgroundColor: Colors.inputColor,
     borderRadius: 25,
+    height: 200,
+    marginTop: 20,
   },
   text: {
     fontSize: 18,
-    color: "white",
+    color: "black",
+    fontWeight: "bold",
   },
   overLimitText: {
     fontSize: 20,
@@ -121,7 +125,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
 
     flexDirection: "row",
-    width: "100%",
+    width: "50%",
+    alignSelf: "center",
     justifyContent: "center",
   },
   buttonText: {
