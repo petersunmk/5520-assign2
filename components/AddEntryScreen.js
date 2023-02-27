@@ -1,6 +1,14 @@
 import React, { useState, useRef } from "react";
-import { View, TextInput, StyleSheet, Button, Alert } from "react-native";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { writeToDB } from "../Firebase/firestoreHelper";
+import { Colors } from "../helper/Color";
 
 const AddEntryScreen = ({ navigation }) => {
   const [calories, setCalories] = useState("");
@@ -20,7 +28,7 @@ const AddEntryScreen = ({ navigation }) => {
 
     writeToDB(entry)
       .then((docRef) => {
-        navigation.navigate("All Entries");
+        navigation.navigate("TabNavigator");
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
@@ -37,23 +45,34 @@ const AddEntryScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter calories"
-        onChangeText={(text) => setCalories(text)}
-        value={calories}
-        keyboardType="numeric"
-      />
-      <TextInput
-        ref={descriptionInputRef}
-        style={styles.input}
-        placeholder="Enter description"
-        onChangeText={(text) => setDescription(text)}
-        value={description}
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Calories</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => setCalories(text)}
+          value={calories}
+          keyboardType="numeric"
+          placeholder="Enter calories"
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Description</Text>
+        <TextInput
+          ref={descriptionInputRef}
+          style={styles.input}
+          onChangeText={(text) => setDescription(text)}
+          value={description}
+          placeholder="Enter description"
+        />
+      </View>
+
       <View style={styles.buttonContainer}>
-        <Button title="Reset" onPress={handleReset} />
-        <Button title="Submit" onPress={handleSubmit} />
+        <TouchableOpacity style={styles.button} onPress={handleReset}>
+          <Text style={styles.buttonText}>Reset</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -62,22 +81,44 @@ const AddEntryScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     paddingHorizontal: 20,
+    backgroundColor: Colors.backgroundColor,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  label: {
+    flex: 1,
+    marginRight: 10,
+    fontWeight: "bold",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
+    flex: 3,
     borderWidth: 1,
-    width: "100%",
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: Colors.inputColor,
   },
+
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: "100%",
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: Colors.headerColor,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 
