@@ -7,8 +7,9 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Button, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import EntryList from "./EntryList";
 import { firestore } from "../Firebase/firebase-setup";
+import { Colors } from "../helper/Color";
 
-export default function OverLimitScreen() {
+export default function OverLimitScreen({ navigation }) {
   const [overLimitGoals, setOverLimitGoals] = useState([]);
 
   useEffect(() => {
@@ -42,9 +43,8 @@ export default function OverLimitScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
 
-      <View style={styles.bottomContainer}>
+      <View>
         <FlatList
-          contentContainerStyle={styles.scrollViewContentContainer}
           data={overLimitGoals}
           renderItem={({ item }) => {
             return <EntryList goal={item} onGoalPress={goalItemPressed} />;
@@ -58,29 +58,8 @@ export default function OverLimitScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "stretch",
-    justifyContent: "center",
-  },
-  topContainer: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  bottomContainer: {
-    flex: 4,
-    backgroundColor: "#dcd",
-  },
-  scrollViewContentContainer: {
-    alignItems: "center",
-  },
-  textContainer: {
-    borderRadius: 5,
-    backgroundColor: "#888",
-    marginVertical: 15,
-    padding: 15,
-  },
-  text: {
-    color: "#4510ff",
-    fontSize: 30,
+    backgroundColor: Colors.backgroundColor,
   },
 });

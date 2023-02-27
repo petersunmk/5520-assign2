@@ -9,6 +9,7 @@ import EntryList from "./EntryList";
 import AddEntryScreen from "./AddEntryScreen";
 import { deleteFromDB, writeToDB } from "../Firebase/firestoreHelper";
 import { firestore } from "../Firebase/firebase-setup";
+import { Colors } from "../helper/Color";
 
 export default function AllEntryScreen({ navigation }) {
   const [goals, setGoals] = useState([]);
@@ -42,12 +43,11 @@ export default function AllEntryScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.scrollView}>
       <StatusBar style="auto" />
 
-      <View style={styles.bottomContainer}>
+      <View>
         <FlatList
-          contentContainerStyle={styles.scrollViewContentContainer}
           data={goals}
           renderItem={({ item }) => {
             return <EntryList goal={item} onGoalPress={goalItemPressed} />;
@@ -59,31 +59,10 @@ export default function AllEntryScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "stretch",
-    justifyContent: "center",
-  },
-  topContainer: {
+  scrollView: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  bottomContainer: {
-    flex: 4,
-    backgroundColor: "#dcd",
-  },
-  scrollViewContentContainer: {
-    alignItems: "center",
-  },
-  textContainer: {
-    borderRadius: 5,
-    backgroundColor: "#888",
-    marginVertical: 15,
-    padding: 15,
-  },
-  text: {
-    color: "#4510ff",
-    fontSize: 30,
+    backgroundColor: Colors.backgroundColor,
   },
 });

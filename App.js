@@ -29,6 +29,8 @@ export default function App() {
           component={EditScreen}
           options={{
             headerBackTitle: "Back",
+            headerStyle: { backgroundColor: "#424497" },
+            headerTintColor: "white",
           }}
         />
 
@@ -37,6 +39,8 @@ export default function App() {
           component={AddEntryScreen}
           options={{
             headerBackTitle: "Back",
+            headerStyle: { backgroundColor: "#424497" },
+            headerTintColor: "white",
           }}
         />
       </Stack.Navigator>
