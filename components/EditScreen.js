@@ -1,105 +1,131 @@
-// import React, { useState } from "react";
-// import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 
-// import { firestore } from "../Firebase/firebase-setup";
-// export default function EditScreen({ route, navigation }) {
-//   console.log(route.params.goalItem);
-//   const { id, text } = route.params.goalItem;
-//   const [reviewed, setReviewed] = useState(false);
+import { firestore } from "../Firebase/firebase-setup";
+import { deleteFromDB } from "../Firebase/firestoreHelper";
+import { Colors } from "../helper/Color";
+import { updateDoc, doc } from "firebase/firestore";
+import { FontAwesome } from "@expo/vector-icons";
 
-//   const handleDelete = () => {
-//     Alert.alert(
-//       "Confirm Deletion",
-//       `Are you sure you want to delete "${text}"?`,
-//       [
-//         {
-//           text: "Cancel",
-//           style: "cancel",
-//         },
-//         {
-//           text: "Delete",
-//           style: "destructive",
-//           onPress: () => {
-//             firestore()
-//               .collection("goals")
-//               .doc(id)
-//               .delete()
-//               .then(() => {
-//                 navigation.navigate("EntryList");
-//               });
-//           },
-//         },
-//       ]
-//     );
-//   };
+export default function EditListScreen({ route, navigation }) {
+  const { id, description, calories, isReviewed } = route.params.goalItem;
 
-//   const handleReview = () => {
-//     const newReviewedStatus = !reviewed;
-//     firestore()
-//       .collection("goals")
-//       .doc(id)
-//       .update({ isReviewed: newReviewedStatus })
-//       .then(() => {
-//         setReviewed(newReviewedStatus);
-//       });
-//   };
+  const [isOverLimit, setIsOverLimit] = useState(calories > 500);
 
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Entry Detail:</Text>
-//       <Text style={styles.text}>{text}</Text>
-//       <TouchableOpacity style={styles.button} onPress={handleDelete}>
-//         <Text style={styles.buttonText}>Delete</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity style={styles.button} onPress={handleReview}>
-//         <Text style={styles.buttonText}>
-//           {reviewed ? "Mark as Unreviewed" : "Mark as Reviewed"}
-//         </Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
+  const handleDelete = () => {
+    Alert.alert(
+      "Confirm Deletion",
+      `Are you sure you want to delete "${description}"?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            await deleteFromDB(id);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
+  };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     padding: 20,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 10,
-//   },
-//   text: {
-//     fontSize: 18,
-//     marginBottom: 20,
-//   },
-//   button: {
-//     backgroundColor: "#3498db",
-//     padding: 10,
-//     borderRadius: 5,
-//     marginBottom: 10,
-//   },
-//   buttonText: {
-//     color: "#fff",
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-// });
+  const handleReviewed = async () => {
+    const goalRef = doc(firestore, "goals", id);
+    const updatedFields = {
+      isReviewed: true,
+    };
+    Alert.alert(
+      "Confirm Review",
+      `Are you sure you want to Review  "${description}" Out of 'Over-Limit'?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Review",
+          style: "destructive",
+          onPress: async () => {
+            await updateDoc(goalRef, updatedFields);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
+  };
 
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
-
-export default function EditScreen({ route, navigation }) {
-  //console.log(appName);
   return (
-    <View>
-      <Text>
-        You are viewing details of {route.params.goalItem.text} with id:{" "}
-        {route.params.goalItem.id}{" "}
-      </Text>
+    <View style={styles.container}>
+      <View style={styles.itemContainer}>
+        <Text style={styles.text}>Calories:{calories}</Text>
+        <Text style={styles.text}>Description:{description}</Text>
+      </View>
+      {isOverLimit && !isReviewed ? (
+        <>
+          <Text style={styles.overLimitText}>Over Limit</Text>
+
+          <TouchableOpacity style={styles.button} onPress={handleReviewed}>
+            <Text style={styles.buttonText}>Mark as Reviewed</Text>
+            <FontAwesome
+              name="check"
+              size={20}
+              color={Colors.activeBottomTabColor}
+            />
+          </TouchableOpacity>
+        </>
+      ) : null}
+
+      <TouchableOpacity style={[styles.button]} onPress={handleDelete}>
+        <Text style={styles.buttonText}>Delete</Text>
+        <FontAwesome
+          name="trash"
+          size={20}
+          color={Colors.activeBottomTabColor}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.backgroundColor,
+    padding: 20,
+  },
+  itemContainer: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: Colors.headerColor,
+    borderRadius: 25,
+  },
+  text: {
+    fontSize: 18,
+    color: "white",
+  },
+  overLimitText: {
+    fontSize: 20,
+    color: Colors.activeBottomTabColor,
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  button: {
+    backgroundColor: Colors.headerColor,
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginTop: 10,
+
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "center",
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "white",
+  },
+});

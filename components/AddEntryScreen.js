@@ -13,6 +13,7 @@ import { Colors } from "../helper/Color";
 const AddEntryScreen = ({ navigation }) => {
   const [calories, setCalories] = useState("");
   const [description, setDescription] = useState("");
+  const [isReviewed, setIsReviewed] = useState(false);
   const descriptionInputRef = useRef(null);
 
   const handleSubmit = () => {
@@ -24,6 +25,7 @@ const AddEntryScreen = ({ navigation }) => {
     const entry = {
       calories: parseInt(calories),
       description: description,
+      isReviewed: isReviewed,
     };
 
     writeToDB(entry)
@@ -62,7 +64,8 @@ const AddEntryScreen = ({ navigation }) => {
           style={styles.input}
           onChangeText={(text) => setDescription(text)}
           value={description}
-          placeholder="Enter description"
+          placeholder="Enter description(max 20 characters)"
+          maxLength={20}
         />
       </View>
 

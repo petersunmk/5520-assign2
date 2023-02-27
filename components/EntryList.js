@@ -29,7 +29,7 @@ const EntryList = ({ goal, onGoalPress }) => {
       >
         <View style={styles.entryContainer}>
           <Text style={styles.entryDescription}>{goal.description}</Text>
-          {isOverLimit ? (
+          {isOverLimit && !goal.isReviewed ? (
             <FontAwesome
               name="exclamation-triangle"
               size={20}
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
 
   pressedStyle: { backgroundColor: "#e9e", opacity: 0.5 },
 
-  // overLimitStyle: { backgroundColor: "#f00" },
   icon: {
     marginRight: 2,
   },

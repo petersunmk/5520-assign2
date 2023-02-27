@@ -2,12 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { onSnapshot, collection } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
-import { FontAwesome } from "@expo/vector-icons";
-
-import { Button, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import EntryList from "./EntryList";
-import AddEntryScreen from "./AddEntryScreen";
-import { deleteFromDB, writeToDB } from "../Firebase/firestoreHelper";
 import { firestore } from "../Firebase/firebase-setup";
 import { Colors } from "../helper/Color";
 
@@ -24,8 +20,8 @@ export default function AllEntryScreen({ navigation }) {
         } else {
           let docs = [];
           querySnapshot.docs.forEach((snap) => {
-            const { description, calories } = snap.data();
-            docs.push({ description, calories, id: snap.id });
+            const { description, calories, isReviewed } = snap.data();
+            docs.push({ description, calories, isReviewed, id: snap.id });
           });
           setGoals(docs);
         }

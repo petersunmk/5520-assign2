@@ -2,9 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { onSnapshot, collection } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 
-import { FontAwesome } from "@expo/vector-icons";
-
-import { Button, FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
 import EntryList from "./EntryList";
 import { firestore } from "../Firebase/firebase-setup";
 import { Colors } from "../helper/Color";
@@ -21,9 +19,9 @@ export default function OverLimitScreen({ navigation }) {
         } else {
           let docs = [];
           querySnapshot.docs.forEach((snap) => {
-            const { description, calories } = snap.data();
-            if (calories > 500) {
-              docs.push({ description, calories, id: snap.id });
+            const { description, calories, isReviewed } = snap.data();
+            if (calories > 500 && isReviewed === false) {
+              docs.push({ description, calories, isReviewed, id: snap.id });
             }
           });
           setOverLimitGoals(docs);
