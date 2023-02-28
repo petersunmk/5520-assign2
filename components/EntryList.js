@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Colors } from "../helper/Color";
 
+// Shared used Entry List component
 const EntryList = ({ goal, onGoalPress }) => {
   const [isOverLimit, setIsOverLimit] = useState(false);
 

@@ -1,7 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { FontAwesome } from "@expo/vector-icons";
+
 import { Colors } from "../helper/Color";
+
+// Button component that can be pressed
+
 export default function PressableButton({ title, handlePressed }) {
   return (
     <Pressable

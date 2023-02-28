@@ -6,7 +6,8 @@ import { deleteFromDB } from "../Firebase/firestoreHelper";
 import { Colors } from "../helper/Color";
 import { updateDoc, doc } from "firebase/firestore";
 import { FontAwesome } from "@expo/vector-icons";
-import PressableButton from "./PressableButton";
+
+// EditListScreen component
 
 export default function EditListScreen({ route, navigation }) {
   const { id, description, calories, isReviewed } = route.params.goalItem;

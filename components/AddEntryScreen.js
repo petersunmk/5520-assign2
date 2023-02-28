@@ -1,16 +1,10 @@
-import React, { useState, useRef } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  Alert,
-  Pressable,
-} from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, StyleSheet, Text, Alert } from "react-native";
 import { writeToDB } from "../Firebase/firestoreHelper";
 import { Colors } from "../helper/Color";
 import PressableButton from "./PressableButton";
 
+// AddEntryScreen component
 const AddEntryScreen = ({ navigation }) => {
   const [calories, setCalories] = useState("");
   const [description, setDescription] = useState("");
@@ -67,7 +61,6 @@ const AddEntryScreen = ({ navigation }) => {
 
       <View style={styles.buttonContainer}>
         <PressableButton title="Reset" handlePressed={handleReset} />
-
         <PressableButton title="Submit" handlePressed={handleSubmit} />
       </View>
     </View>
