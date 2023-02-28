@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
 
 import { firestore } from "../Firebase/firebase-setup";
 import { deleteFromDB } from "../Firebase/firestoreHelper";
 import { Colors } from "../helper/Color";
 import { updateDoc, doc } from "firebase/firestore";
 import { FontAwesome } from "@expo/vector-icons";
+import PressableButton from "./PressableButton";
 
 export default function EditListScreen({ route, navigation }) {
   const { id, description, calories, isReviewed } = route.params.goalItem;
@@ -64,27 +65,37 @@ export default function EditListScreen({ route, navigation }) {
         <Text style={styles.text}>Calories:{calories}</Text>
         <Text style={styles.text}>Description:{description}</Text>
 
-        <TouchableOpacity style={[styles.button]} onPress={handleDelete}>
+        <Pressable
+          style={({ pressed }) => {
+            return [styles.button, pressed ? styles.pressedStyle : null];
+          }}
+          onPress={handleDelete}
+        >
           <Text style={styles.buttonText}>Delete</Text>
           <FontAwesome
             name="trash"
             size={20}
             color={Colors.activeBottomTabColor}
           />
-        </TouchableOpacity>
+        </Pressable>
 
         {isOverLimit && !isReviewed ? (
           <>
             <Text style={styles.overLimitText}>Over Limit !</Text>
 
-            <TouchableOpacity style={styles.button} onPress={handleReviewed}>
+            <Pressable
+              style={({ pressed }) => {
+                return [styles.button, pressed ? styles.pressedStyle : null];
+              }}
+              onPress={handleReviewed}
+            >
               <Text style={styles.buttonText}>Mark as Reviewed</Text>
               <FontAwesome
                 name="check"
                 size={20}
                 color={Colors.activeBottomTabColor}
               />
-            </TouchableOpacity>
+            </Pressable>
           </>
         ) : null}
       </View>
@@ -133,4 +144,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
   },
+  pressedStyle: { opacity: 0.5 },
 });

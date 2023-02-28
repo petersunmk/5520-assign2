@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { writeToDB } from "../Firebase/firestoreHelper";
 import { Colors } from "../helper/Color";
+import PressableButton from "./PressableButton";
 
 const AddEntryScreen = ({ navigation }) => {
   const [calories, setCalories] = useState("");
   const [description, setDescription] = useState("");
   const [isReviewed, setIsReviewed] = useState(false);
-  const descriptionInputRef = useRef(null);
 
   const handleSubmit = () => {
     if (!calories || !description || isNaN(calories) || calories <= 0) {
@@ -40,9 +40,6 @@ const AddEntryScreen = ({ navigation }) => {
   const handleReset = () => {
     setCalories("");
     setDescription("");
-    if (descriptionInputRef.current) {
-      descriptionInputRef.current.focus();
-    }
   };
 
   return (
@@ -60,7 +57,6 @@ const AddEntryScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Description</Text>
         <TextInput
-          ref={descriptionInputRef}
           style={styles.input}
           onChangeText={(text) => setDescription(text)}
           value={description}
@@ -70,12 +66,9 @@ const AddEntryScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={handleReset}>
-          <Text style={styles.buttonText}>Reset</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </Pressable>
+        <PressableButton title="Reset" handlePressed={handleReset} />
+
+        <PressableButton title="Submit" handlePressed={handleSubmit} />
       </View>
     </View>
   );
@@ -113,16 +106,8 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
   },
-  button: {
-    backgroundColor: Colors.headerColor,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
+
+  pressedStyle: { opacity: 0.5 },
 });
 
 export default AddEntryScreen;
