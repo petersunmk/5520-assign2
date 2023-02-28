@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native";
+import { Pressable } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import AllEntryScreen from "./AllEntryScreen";
@@ -16,16 +16,17 @@ const TabNavigator = (navigation) => {
       screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: Colors.headerColor },
         headerTintColor: "white",
+        headerTitleAlign: "center",
         tabBarStyle: { backgroundColor: Colors.headerColor },
         tabBarActiveTintColor: Colors.activeBottomTabColor,
         headerRight: () => (
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
               navigation.navigate("Add An Entry");
             }}
           >
             <Ionicons name="add" size={24} color="white" />
-          </TouchableOpacity>
+          </Pressable>
         ),
       })}
     >

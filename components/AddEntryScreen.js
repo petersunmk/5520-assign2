@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   Alert,
-  TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { writeToDB } from "../Firebase/firestoreHelper";
 import { Colors } from "../helper/Color";
@@ -70,12 +70,12 @@ const AddEntryScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleReset}>
+        <Pressable style={styles.button} onPress={handleReset}>
           <Text style={styles.buttonText}>Reset</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        </Pressable>
+        <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

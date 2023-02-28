@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: "column",
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: "center",
     backgroundColor: Colors.inputColor,
     borderRadius: 25,
     height: 200,
-    marginTop: 20,
+    marginTop: 10,
   },
   text: {
     fontSize: 18,

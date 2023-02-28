@@ -31,6 +31,7 @@ export default function App() {
             headerBackTitle: "Back",
             headerStyle: { backgroundColor: "#424497" },
             headerTintColor: "white",
+            headerTitleAlign: "center",
           }}
         />
 
@@ -41,6 +42,7 @@ export default function App() {
             headerBackTitle: "Back",
             headerStyle: { backgroundColor: "#424497" },
             headerTintColor: "white",
+            headerTitleAlign: "center",
           }}
         />
       </Stack.Navigator>
